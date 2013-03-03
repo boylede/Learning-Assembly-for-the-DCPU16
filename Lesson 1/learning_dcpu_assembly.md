@@ -1,5 +1,8 @@
 # Learning DCPU Assembly
 
+I am by no means an expert on any programming topic, but I thought this would be fun to write. Comments & critisism welcomed. 
+
+
 ## Requisite Knowledge 
 It is not neccessary to understand binary completely to start out. All that you need to know is that binary is the only way computers think, and that they don't "know" that any data should be interpreted in a specific way other than how the programmer tells them to. Also, you must know that the smallest peice of data the DCPU deals with is 16 bits, which means that a peice of information can be any one of 65,536 values, and nothing else. This piece of data is called a ```word```.
  
