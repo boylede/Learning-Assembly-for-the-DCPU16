@@ -1,0 +1,86 @@
+; ---------------------------------------------
+; Init Code
+; ---------------------------------------------
+
+; so what we are going to do:
+; A) find out how many devices are connected.
+; B) ask each devices what its specs are
+; 		we're only really concerned with the
+;		screen and keyboard at the moment.
+; C) set some "global variables" to the index
+;	 values of our hardware.
+; D) That's it! Just stop here atm.
+
+
+; this is A), all done!
+; the number is now stored in "i".
+; e.g. "i" might be 4 now.
+	hwn i
+
+; now we're going to talk to each device
+; and, if it is the screen or keyboard
+; we will remember it's index value.
+
+; a label so we can loop easily.
+:init_loop
+
+; each time we loop we'll subtract 1 from "i"
+; the first time we're subtracting 1 because
+; devices are indexed starting at 0, so if there
+; are 4 devices they are 0,1,2,3 
+; and after the first time its to get to the next
+; device.
+	sub i, 1
+
+
+; B)!
+; this talks to the device and asks it to
+; fill "abc" and "xyz" with its stats.
+; that's why we used "i" to store the index,
+; because all the other registers except "j" 
+; get trampled here.
+	hwq i
+
+; each device has unique values,
+; but right now there are only a few
+; devices, so we don't need to 
+; verify each one, just "a" is fine.
+	ife a, 0x7406
+		set [keyboard], i
+	ife a, 0xf615
+		set [screen], i
+; C)!
+; we set the values at those labels if
+; the hardware matched, now we're done
+; with this hardware, next one!
+
+; if we aren't at the last peice of hardware,
+; repeat the loop.
+	ifn i, 0
+		set pc, init_loop
+
+
+
+; now that we have our hardware IDs
+; in memory, we can set up
+; the screen and keyboard.
+
+; this tells the screen to use 
+; a certain region of memory
+; as video memory.
+; i've set the value in a label, so we can refer to it later.
+	set A, 0
+	set B, [video]
+	hwi [screen]
+
+; D)!
+; ok we are done for this part
+	sub pc, 1
+
+; we'll define the labels here
+screen:
+dat 0xffff
+keyboard:
+dat 0xffff
+video:
+dat 0x8000

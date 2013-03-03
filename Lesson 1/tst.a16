@@ -1,0 +1,99 @@
+; sheduling test
+    set pc, init
+; ---------------------------------------------
+; Global Variables
+; ---------------------------------------------
+:video
+	dat 0x8000
+:screen
+	dat 0xffff
+:keyboard
+	dat 0xffff
+:clock
+	dat 0xffff
+:header
+	dat "===== Task Switching Test ======", 0
+:time
+	dat 0xffff
+:counter
+	dat 0xffff
+; ---------------------------------------------
+; Start!
+; ---------------------------------------------
+:start
+	set i, [video]
+	set j, header
+:printLoop
+; this adds a color to each character.
+	bor [j], 0xe900
+; remember, set then increment.
+	sti [i], [j]
+; now check if we are at the end of the string.
+	ifn [j], 0
+		set pc, printLoop
+	set x, 0
+:clockLoop
+	set a, [time]
+	set j, i
+	add i, 5
+:printIntLoop
+	set b, a
+	mod b, 10
+	add b, 0xe930
+	set [i], b
+	sub i, 1
+	div a, 10
+	ifn i, j
+		set pc, printIntLoop
+	add x, 103
+	set pc, clockLoop
+
+; ---------------------------------------------
+; Initerrupt Handler
+; ---------------------------------------------
+:interrutus
+	set push, ex
+	set a, [counter]
+	add a, 1
+	ife a, 60
+		set pc, interrutus_increment
+	set [counter], a
+	set x, 0
+	set ex, pop
+	rfi 0
+
+:interrutus_increment
+	set [counter], 0
+	add [time], 1
+	set x, 0
+	set ex, pop
+	rfi 0
+; ---------------------------------------------
+; Init Code
+; ---------------------------------------------
+
+:init
+	hwn i
+:init_loop
+	sub i, 1
+	hwq i
+	ife a, 0x7406
+		set [keyboard], i
+	ife a, 0xf615
+		set [screen], i
+	ife a, 0xb402
+		set [clock], i
+	ifn i, 0
+		set pc, init_loop
+	set a, 0
+	set b, [video]
+	hwi [screen]
+	set b, 1
+	hwi [clock]
+	ias interrutus
+	set a, 2
+	hwi [clock]
+	set pc, start
+
+
+
