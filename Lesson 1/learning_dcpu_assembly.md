@@ -103,7 +103,7 @@ The number 0xe900 represents yellow text on a blue background, we store it at a 
 
 
 ## Pointers and Labels
-In DCPU assembly, the ```[``` and ```]``` characters are used to enclose pointers. They mean that the value should be interpreted as a memory address, and that the value at that memory address is the one you are refering to. If that doesn't make sense, consider this  pretend map of some memory:
+In DCPU assembly, the ```[``` and ```]``` characters are used to enclose pointers. They mean that the value should be interpreted as a memory address, and that the value at that memory address is the one you are refering to. Consider this  pretend map of some memory:
 
 ```
 0000: 	0FF0 000F 0000 F000
@@ -113,7 +113,7 @@ In DCPU assembly, the ```[``` and ```]``` characters are used to enclose pointer
 ``` 
 I have represented memory in hexidecimal, which is often used in computing partly because it is more succinct than binary. Each four digit group represents one ```word``` of memory.
 
-The values at the left are the offset, or the number of each ```word``` of memory. The first ```word``` is numbered 0, and up from there to the total of 65,536 possible on the DCPU. The offset isn't actually part of the memory, it is just used for visualization.
+The values at the left are the offset, or the address, of each ```word``` of memory. The first ```word``` is numbered 0, and up from there to the total of 65,536 possible on the DCPU. The offset isn't actually part of the memory, it is just used for visualization.
 
 In this memory map, the pointer [0003] would point to the value 0xF000, which you can see  on the first line. You can see the the first value on the next line is at offset 0004, which makes sense because it is one after 0003. 
 
@@ -133,8 +133,6 @@ Often in simple programs it is usefull to assign a specific piece of memory to s
 
 
 ## Comments
-Before we get to an example program, I want to mention comments.
-
 In code, it is often usefull to annotate things with comments so that others, and even future you, can understand what the goal of a given subroutine is. This is done in DCPU-Assembly using semi-colons. Everything on that line after the semi-colon is ignored by the compiler.
 
 ```
