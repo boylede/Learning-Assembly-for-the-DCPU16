@@ -60,6 +60,47 @@ This is another pointer which we'll talk about later. Essentially a programmer c
 ### EX: Excess Register
 The exess register is used when a function overflows the 16 bit possible values. This is a very luxurious function of the DCPU because "real" architectures often only have 1 bit for overflow and it is shared between different uses. This provides 16 whole bits of extra information when an operation overflows.
 
+## Addressing
+````
+set a, 8 		; set the A register to the literal value 8
+set a, [8]		; set the A register to the value in memory at address 0x0008
+set a, [8+b]	; set the A register to the value in memory at address (0x0008 plus B)
+set [a], 8		; set the value at the memory address that is in the A register to 8 
+````
+Addressing means how you refer to a specific peice of data. On the DCPU, data can either be stored in a register or stored in memory. Using pointers to address a peice of memory is simple enough, just enclose the memory address in square brackets ```[address]``` and the DCPU will read from or write to that address. 
+
+In the third example above, the literal value 8 is added to the value stored in the ```a``` register to determine which memory address to read. (The value of the ```a``` register is not altered.) For example, this can be used in a loop to refer to one value after another in memory.
+
+```
+set a, 0
+:loop
+set [label+a], 0xe900
+add a, 1
+ifn a, 0xf
+	set pc, loop
+	sub pc, 1
+```
+This will set 16 ```words``` of memory to 0xe900, because 0xf is 15 in hexidecimal (and we started at 0).
+
+This might be useful if we want to copy a string out to the screen. Let's say we have configured the screen to read from memory at 0x8000, and we want to print the string stored at the label "string" onto the screen in yellow text on a blue background.
+
+```
+set i, 0x8000
+set j, string
+:loop
+bor [j], [color]
+sti [i], [j]
+ifn [j], 0
+    set pc, loop
+sub pc, 1
+
+:color
+dat 0xe900 
+:string
+dat "Hello World!", 0
+```
+The number 0xe900 represents yellow text on a blue background, we store it at a label so we can change it easily when we want, and the string too. Strings are often terminated with a 0 so that you know when the string is over without knowing how long it is in advance.
+
 
 ## Pointers and Labels
 In DCPU assembly, the ```[``` and ```]``` characters are used to enclose pointers. They mean that the value should be interpreted as a memory address, and that the value at that memory address is the one you are refering to. If that doesn't make sense, consider this  pretend map of some memory:
