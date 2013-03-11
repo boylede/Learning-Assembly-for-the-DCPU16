@@ -1,32 +1,168 @@
-; i like to put init at the end so you can read
-; the important parts of the program up front.
+; this program will allow the user to input text to the video memory.
+; it will stop them from accidentally writing outside the video memory
+; and it will use a special "linefeed" character to denote where the user
+; has pressed enter. That way, when they go to erase it they dont have to
+; erase a bunch of spaces.
+
 	set pc, init
 ; ---------------------------------------------
-; Global Variables
+; Globals
 ; ---------------------------------------------
-video:
-	dat 0x8000
+; Device IDs
 screen:
 	dat 0xffff
 keyboard:
 	dat 0xffff
-hellostring:
-	dat "Hello, World!",0
+; screen memory
+video:
+	dat 0xe000
+video_end:
+	dat 0xe180
+; character constants
+; these represent values for the characters
+; we'll write to the screen. we store them
+; here so we could change the colors as we
+; wish, without changing the code.
+:color
+	dat 0xf900 	; white on blue.
+:cursor
+	dat 0xe9DF 	; blinking underscore, yellow on blue.
+:empty
+	dat 0xe920 	; blue empty space. (yellow foreground, empty)
+
+; we'll use a seperate character when the user presses enter,
+; instead of filling the line with spaces. that way we know
+; to erase them all when they use backspace.
+; this character will look the same to the user but will have
+; a different data value.
+
+; should be 0x9f1b but 0x10co.de uses an old char set.
+:linefeed		dat 0x9f1f ; a filled-square of blue (blue forground, filled)
 ; ---------------------------------------------
 ; Start!
 ; ---------------------------------------------
 start:
-	set i, [video]
-	set j, hellostring
-printLoop:
-; this adds a color to each character.
-	bor [j], 0xf000
-; remember, set then increment.
-	sti [i], [j]
-; now check if we are at the end of the string.
-	ifn [j], 0
-		set pc, printLoop
-	sub pc, 1
+; draw background color to screen
+	set j, [video] 		; copy to here
+	set a, [empty] 		; value to write
+	set b, [video_end] 	; where to stop
+:clear
+; 16 sti calls for minor speed optimization.
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+; check if we are at the end.
+	ifn j, b
+		set pc, clear
+
+; now we'll use j to keep track of where the cursor is.
+	set j, [video]
+
+; wait for keyboard input
+:key_loop
+	set [j], [cursor] ; make the cursor blink
+	set a, 1
+	hwi [keyboard]
+
+; if no key was pressed, keep checking
+	ife c, 0
+		set pc, key_loop
+
+; some emulators need this.
+; some don't...
+:eliminate_stutter
+	set b, c
+	hwi [keyboard]
+	ife c, b
+		set pc, eliminate_stutter
+	set c, b
+; when we get here we know a key has been pressed and released.
+
+	set push, key_loop 	; minor optimization
+
+; check the key value
+	ife c, 0x10
+		set pc, backspace
+	ife c, 0x11 
+		set pc, return
+; if it was an ascii key
+; write it to the screen.
+	ifg c, 0x1F 
+		ifl c, 0x80
+			set pc, write
+; ignore other keys
+; this will return to key_loop, which  we pushed before.
+	set pc, pop 
+
+
+:write
+; write the key to the screen
+	ife j, [video_end] ; make sure we arent at the end of the screen first
+		set pc, pop
+; add some color to the character
+	bor c, [color]
+; copy the character to the cursor, increment the cursor (and i, but we arent using i.)
+	sti [j], c
+	set pc, pop
+:return
+; fill the rest of the line with
+; the fake "linefeed" character,
+; instead of creating a bunch of "space" characters.
+
+; we need to figure out where the next line starts
+; but we don't know how far into this line we are.
+	set b, j 			; copy the cursor location so we can work on it non-desctructively. 
+	sub b, [video] 		; subtract the base video memory, now we know how far into video memory we are.
+
+
+	shr b, 5  			; divide by 32, each line is 32 characters so now we have the line number 
+; (bit shits are like multiplication and divide by powers of 2 for integers. 2^5 = 32.)
+
+	ifg b, 0xa 			; if we are on the last line, dont do anything.
+		set pc, pop 
+	add b, 1 			; the next line
+	shl b, 5 			; multiply by 32
+	add b, [video] 		; re-add the video memory address.
+; now we have the address of the first character on the next line. fill every char between the cursor 
+; and the next line with the "linefeed" char that we defined in the globals section.
+:return_loop
+	sti [j], [linefeed] 	; set the value at j to the value at the linefeed label, then increment i and j.
+	ifn j, b 				; if we are not at the first char of the next line, repeat.
+		set pc, return_loop
+; now we're done with the return routine, go back to key_loop which we pushed before.
+	set pc, pop
+:backspace
+
+	ife j, [video] ; dont do anything if we are already at the begining of the video memory.
+		set pc, pop
+; copy the empty character to the cursor, then decrement the cursor (and i, which we arent using)
+	std [j], [empty]
+; if the value at the cursor is not a "linefeed", then we are done.
+	ifn [j], [linefeed]
+		set pc, pop
+; if we encounter the "linefeed" character,
+; erase until it it isn't linefeed anymore.
+:backspace_loop
+; erase one more character
+	std [j], [empty]
+; check if the char before the cursor is a linefeed too.
+; 0xffff is like negative 1.
+	ife [0xffff + j], [linefeed]
+		set pc, backspace_loop
+	set pc, pop
 ; ---------------------------------------------
 ; Init Code
 ; ---------------------------------------------
@@ -42,8 +178,8 @@ printLoop:
 		set [screen], i
 	ifn i, 0
 		set pc, init_loop
-	set A, 0
-	set B, [video]
+	set a, 0
+	set b, [video]
 	hwi [screen]
 	set pc, start
 
