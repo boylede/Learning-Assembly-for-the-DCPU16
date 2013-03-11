@@ -1,9 +1,13 @@
-; i like to put init at the end so you can read
-; the important parts of the program up front.
+; this line will skip to the init code
+; from the last guide, which i have
+; placed at the bottom of this file.
 	set pc, init
 ; ---------------------------------------------
-; Global Variables
+; Globals
+; here we make some labels which allow us to
+; reference peices of data by name.
 ; ---------------------------------------------
+
 video:
 	dat 0x8000
 screen:
@@ -14,21 +18,29 @@ hellostring:
 	dat "Hello, World!",0
 ; ---------------------------------------------
 ; Start!
+; here we will start to write to the screen,
+; which we mapped to memory in the previous
+; guide. we will copy each letter and set the 
+; color so it shows up on the screen.
 ; ---------------------------------------------
+
 start:
-	set i, [video]
-	set j, hellostring
+	set i, [video] 		; this is where we will copy to
+	set j, hellostring 	; this is where we will copy from
 printLoop:
-; this adds a color to each character.
+; this adds a color to each character, so its not black on black.
 	bor [j], 0xf000
-; remember, set then increment.
+; set the value at i to the value at j, then increment i and j.
 	sti [i], [j]
 ; now check if we are at the end of the string.
+; we put a 0 value at the end of the string for this purpose.
 	ifn [j], 0
 		set pc, printLoop
+; this will stop the program.
 	sub pc, 1
 ; ---------------------------------------------
 ; Init Code
+; from the previous guide.
 ; ---------------------------------------------
 
 :init
@@ -45,6 +57,7 @@ printLoop:
 	set A, 0
 	set B, [video]
 	hwi [screen]
+; jump back to the code above.
 	set pc, start
 
 
