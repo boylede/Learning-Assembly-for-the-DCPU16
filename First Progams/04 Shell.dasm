@@ -56,6 +56,7 @@ jsr justSTest
 
 	bor c, 0xf900
 	jsr screenWrite
+	jsr screenWrite
 	set pc, key_loop
 
 ; ---------------------------------------------
