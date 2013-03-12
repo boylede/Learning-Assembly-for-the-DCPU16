@@ -54,7 +54,7 @@
 ; Cursor Handling Subroutines
 ; ---------------------------------------------
 
-
+:screenWrite
 :cursorblink
 	set b, [a]			; read it
 	and b, 0x7f			; no blink & color
