@@ -8,13 +8,13 @@
 ; reference peices of data by name.
 ; ---------------------------------------------
 
-video:
+:video
 	dat 0x8000
-screen:
+:screen
 	dat 0xffff
-keyboard:
+:keyboard
 	dat 0xffff
-hellostring:
+:hellostring
 	dat "Hello, World!",0
 ; ---------------------------------------------
 ; Start!
@@ -24,10 +24,10 @@ hellostring:
 ; color so it shows up on the screen.
 ; ---------------------------------------------
 
-start:
+:start
 	set i, [video] 		; this is where we will copy to
 	set j, hellostring 	; this is where we will copy from
-printLoop:
+:printLoop
 ; this adds a color to each character, so its not black on black.
 	bor [j], 0xf000
 ; set the value at i to the value at j, then increment i and j.

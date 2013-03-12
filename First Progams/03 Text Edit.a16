@@ -9,14 +9,14 @@
 ; Globals
 ; ---------------------------------------------
 ; Device IDs
-screen:
+:screen
 	dat 0xffff
-keyboard:
+:keyboard
 	dat 0xffff
 ; screen memory
-video:
+:video
 	dat 0xe000
-video_end:
+:video_end
 	dat 0xe180
 ; character constants
 ; these represent values for the characters
@@ -41,7 +41,7 @@ video_end:
 ; ---------------------------------------------
 ; Start!
 ; ---------------------------------------------
-start:
+:start
 ; draw background color to screen
 	set j, [video] 		; copy to here
 	set a, [empty] 		; value to write

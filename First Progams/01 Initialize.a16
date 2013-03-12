@@ -78,9 +78,9 @@
 	sub pc, 1
 
 ; we'll define the labels here
-screen:
+:screen
 dat 0xffff
-keyboard:
+:keyboard
 dat 0xffff
-video:
+:video
 dat 0x8000
