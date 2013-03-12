@@ -41,7 +41,7 @@ dat 0xff00
 jsr justSTest
 
 	jsr justAtest
-	sub a, 0xff00
+	sub a, 0xff00 
 	jsr justSTest
 
 :start
@@ -54,7 +54,7 @@ jsr justSTest
 	jsr keyWait
 	jsr cursorunblink
 
-	bor c, 0xf900 
+	bor c, 0xf900
 	jsr screenWrite
 	set pc, key_loop
 
