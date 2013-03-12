@@ -40,6 +40,10 @@ jsr justAtest
 dat 0xff00
 jsr justSTest
 
+	jsr justAtest
+	sub a, 0xff00
+	jsr justSTest
+
 :start
 	jsr clearScreen
 ; draw the shell prompt
