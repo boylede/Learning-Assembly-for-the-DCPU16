@@ -36,6 +36,10 @@
 ; y must be 0-11 inclusive
 ; ---------------------------------------------
 
+jsr justAtest
+dat 0xff00
+jsr justSTest
+
 :start
 	jsr clearScreen
 ; draw the shell prompt
