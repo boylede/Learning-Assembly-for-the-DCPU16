@@ -1,0 +1,153 @@
+; this program will compare input
+; against a list of subroutines
+; and run the subroutine named.
+
+	set pc, init
+; ---------------------------------------------
+; Globals
+; ---------------------------------------------
+:keyboard
+	dat 0xffff
+:video
+	dat 0xe000
+:video_end
+	dat 0xe180
+:keyBuffer
+	dat 0
+:color
+	dat 0xf900 	; white on blue.
+:cursor
+	dat 0xe9DF 	; blinking underscore, yellow on blue.
+:empty
+	dat 0xe920 	; blue empty space. (yellow foreground, empty)
+
+
+; ---------------------------------------------
+; Start!
+; Registers we'll store the status in:
+; j for the index on the current line (-2)
+; i is the cursor in memory
+; y is the current line
+; z is the length of the command
+; c is the current character
+; 
+; j must stay less than or equal to z
+; i must stay between video and video_end, inclusive
+; y must be 0-11 inclusive
+; ---------------------------------------------
+
+:start
+	jsr clearScreen
+; draw the shell prompt
+	set [i], 0xe924
+	add i, 2
+:key_loop
+	jsr cursorblink
+	jsr keyWait
+	jsr cursorunblink
+
+	bor c, 0xf900 
+	jsr screenWrite
+	set pc, key_loop
+
+; ---------------------------------------------
+; Cursor Handling Subroutines
+; ---------------------------------------------
+
+
+:cursorblink
+	set b, [a]			; read it
+	and b, 0x7f			; no blink & color
+	ife b, 0x20 		; space
+		set b, 0x5f 	; change space to underscore
+	;bor b, 0xe980  	;; blinky, yellow
+	bor b, 0xe900  		; just yellow 
+	set [a], b			; set it
+	set pc, pop
+:cursorunblink
+	set b, [a]			; read it
+	and b, 0x7f			; no blink & color
+	ife b, 0x5f 		; change underscore to space
+		set b, 0x20		;
+	bor b, 0xf900		; recolor
+	set [a], b			; set it
+	set pc, pop
+
+
+; ---------------------------------------------
+; Obligatory Subroutines
+; ---------------------------------------------
+:clearScreen
+	set j, [video]
+	set a, [empty]
+	set b, [video_end]
+:clear_loop
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	sti [j], a
+	ifn j, b
+		set pc, clear_loop
+
+	set j, 0
+	set y, 0
+	set z, 0
+	set i, [video]
+	set pc, pop
+
+:keyWait
+	set a, 1
+	hwi [keyboard]
+	ife c, 0
+		set pc, key_loop
+	set push, b
+:eliminate_stutter
+	set b, c
+	hwi [keyboard]
+	ife c, b
+		set pc, eliminate_stutter
+	set c, b
+	set b, pop
+
+	ife c, 0x10
+		set pc, backspace
+	ife c, 0x11 
+		set pc, return
+
+	set pc, pop
+
+
+; ---------------------------------------------
+; Init Code
+; ---------------------------------------------
+
+:init
+	hwn i
+:init_loop
+	sub i, 1
+	hwq i
+	ife a, 0x7406
+		set [keyboard], i
+	ife a, 0xf615
+		set [screen], i
+	ifn i, 0
+		set pc, init_loop
+	set a, 0
+	set b, [video]
+	hwi [screen]
+	set pc, start
+
+
+
