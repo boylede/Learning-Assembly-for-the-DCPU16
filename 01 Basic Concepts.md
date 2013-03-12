@@ -24,12 +24,12 @@ Assembly consists of "simple" computations which are executed one at a time, in 
 ```
 	set a, 12
 	add a, 4
-
 	set b, 2
 	sub a, b
 ```
 
 In the example above there are several different instructions shown, using the ```set```, ```add```, and ```sub``` operations. As you can probably guess, ```add``` and ```sub``` perform arithmatic on integers. Set allows you to copy a value to another place, in this example we store two values in two registers, called ```a``` and ```b```. Registers are like little pockets of memory on the processor which can be accessed quickly.
+
 
 ## Machine Code
 
@@ -41,6 +41,8 @@ When you write assembly, like many programming languages, you need to compile it
 The above block of machine code, represented in hexadecimal numbers, is equivalent to the assembly code shown before. The machine code is divided into blocks of 4 hexidecimal digits, for human readability. Each block of 4 digits represents one **word**.
 
 Instructions in DCPU-Assembly take up between 1 and 3 **words** each, and in this example each instruction is one **word**. ```b401``` is equivalent to ```set a, 12```.
+
+I have shown you the above block of machine code to illustrate a point, but it is not important for you to know specifically what machine code something translates into.
 
 ## Instructions
 DCPU assembly differs from an actual assembly language in that the operations are all designed to be easy to understand by humans, whereas actual modern processors have instruction sets that are designed to be written by compilers and are not very human-friendly.
