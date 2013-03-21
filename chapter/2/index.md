@@ -15,4 +15,15 @@ One of the special registers that we saw earlier was the stack pointer. The stac
 
 Basically, the stack grows from the end of memory. The first value you write will be at the end, the next one just before it.
 
+```
+set push, 8
+set push, b
+set a, pop
+set b, pop
+```
+
+You put values on the stack by setting push, and you get them back using pop. In this example, a is set to whatever b was, and b is set to 8. Values are retrieved in the opposite order that they were put in.
+
+You can access the value at the stack pointer without modyfying the stack pointer using `peek`, and you can access values near the stack pointer by using `pick` and a number.
+
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
