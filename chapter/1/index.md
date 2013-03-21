@@ -3,6 +3,7 @@ layout: chapter
 title: Chapter 1: Basic Concepts
 subtitle: Some kind of subtitle.
 ---
+
 # Basic Concepts
 
 ## Numbers 
