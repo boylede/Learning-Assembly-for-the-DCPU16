@@ -40,7 +40,7 @@ While you are writing instructions, you can define a label to refer to a specifi
 
 ```
 	set a, 1
-:label
+&#58;label
 	add a, 1
 	set pc, label
 ```
