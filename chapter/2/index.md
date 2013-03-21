@@ -29,6 +29,7 @@ You can access the value at the stack pointer without modyfying the stack pointe
 
 ```
 ; test
+this is a ; test
 ```
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
