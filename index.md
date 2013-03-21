@@ -13,8 +13,8 @@ This guide will walk through some reference knowledge, most of which will either
 Alongside this guide are several well-commented sample programs which illustrate increasingly complex concepts.
 
 ## Chapters
-1. [Basic Concepts](#) - The very basics of assembly.
+1. [Basic Concepts](chapter/1) - The very basics of assembly.
 
-2. [Memory](#) - On subroutines and pointers.
+2. [Memory](chapter/2) - On subroutines and pointers.
 
-3. [Hardware](#) - Talking with hardware.
+3. [Hardware](chapter/3) - Talking with hardware.
