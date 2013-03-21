@@ -28,16 +28,7 @@ You can access the value at the stack pointer without modyfying the stack pointe
 
 
 ```
-
-set push, 8
-set push, 2
-set a, peek   	; set a to 2
-set a, pick 1 	; set a to 8
-
+; test
 ```
-
-
-## Labels
-While you are writing instructions, you can define a label to refer to a specific place in the code. A label is translated by the compiler into the address of next line of code after the label definition. 
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
