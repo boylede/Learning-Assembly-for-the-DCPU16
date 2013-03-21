@@ -22,3 +22,16 @@ Hexidecimal, or simply hex, is a way to write numbers just like binary and decim
 Hexidecimal digits can be any one of 16 values, represented by the numbers 0-9 and the letters a-f. The hex digit "a" is equivalent to the decimal number 10, b=11, etc, up to f=15. In order to denote that a given number is written in hex, the prefix ```0x``` is used. 
 
 ```0x12f4``` is equal to ```4852``` in decimal or ```0001 0010 1111 0100``` in binary.
+
+## Assembly Code
+
+Assembly consists of "simple" computations which are executed one at a time, in order. These are called **instructions**. Each instruction contains an operation and one or two values. 
+
+```
+	set a, 12
+	add a, 4
+	set b, 2
+	sub a, b
+```
+
+In the example above there are several different instructions shown, using the ```set```, ```add```, and ```sub``` operations. As you can probably guess, ```add``` and ```sub``` perform arithmatic on integers. Set allows you to copy a value to another place, in this example we store two values in two registers, called ```a``` and ```b```. Registers are like little pockets of memory on the processor which can be accessed quickly.
