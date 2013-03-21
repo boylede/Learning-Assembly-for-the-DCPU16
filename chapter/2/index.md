@@ -28,6 +28,7 @@ You can access the value at the stack pointer without modyfying the stack pointe
 
 
 ```
+
 set push, 8
 set push, 2
 set a, peek   	; set a to 2
