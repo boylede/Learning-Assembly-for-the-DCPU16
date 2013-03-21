@@ -44,4 +44,33 @@ While you are writing instructions, you can define a label to refer to a specifi
 	set pc, label
 ```
 
+Labels are defined by prefixing the label with a semicolon. Some compilers support putting the semicolon after the label, which is how real assembly works, but not all DCPU compilers will recognize those labels at the moment.
+
+In the example above, label would translate to the number 1. The first instruction, `set a, 1` is encoded into the 0th word of memory, and `add a, 1` is encoded into the 1st word. When `set pc, label` is compiled, it will be translated into `set pc, 1`.
+
+By accessing `pc` directly, you change the program flow. The program will run in a continuous loop because the instruction pointer keeps getting set to the same value.
+
+Label definitions themselves are not translated into machine code, so the above example would compile into three words.
+
+## Globals
+If you want to keep track of a value but you don't want to hog a register for it, and you need to access it from a lot of places so the stack is out of the question, you can put it in a specific address in memory and then always refer to it by its address.
+
+You can use a label to act as a stand-in for the address, and that way you don't need to remember the specific address.
+
+```
+set a, [aValue]
+add a, 16
+set [aValue], a
+
+; . . .
+
+:aValue
+dat 0
+
+```
+
+When you use square-brackets `[ ]` around a number, the DCPU will interpret the number as an address in memory and access the value at that address. Since labels are translated into a number at compile time, you don't need to keep track of the specific address.
+
+I call these globals because any part of the program could access them.
+
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
