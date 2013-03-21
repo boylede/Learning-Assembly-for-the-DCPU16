@@ -27,13 +27,11 @@ Hexidecimal digits can be any one of 16 values, represented by the numbers 0-9 a
 
 Assembly consists of "simple" computations which are executed one at a time, in order. These are called **instructions**. Each instruction contains an operation and one or two values. 
 
-```dasm
-
+```
 	set a, 12
 	add a, 4
 	set b, 2
 	sub a, b
-	
 ```
 
 In the example above there are several different instructions shown, using the ```set```, ```add```, and ```sub``` operations. As you can probably guess, ```add``` and ```sub``` perform arithmatic on integers. Set allows you to copy a value to another place, in this example we store two values in two registers, called ```a``` and ```b```. Registers are like little pockets of memory on the processor which can be accessed quickly.
