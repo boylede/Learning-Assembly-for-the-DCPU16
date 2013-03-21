@@ -3,6 +3,7 @@
 layout: index
 title: Chapter 2: Memory
 subtitle: Some kind of subtitle.
+permalink: 02
 ---
 # Memory
 We can use registers to store information temporarily, but when we want something to be more durable we put it in memory so that we can refer to it later. We refer to it by remembering the address in memory that it is stored in. 

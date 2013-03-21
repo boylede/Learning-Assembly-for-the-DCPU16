@@ -2,6 +2,7 @@
 layout: index
 title: Chapter 3: Hardware
 subtitle: Some kind of subtitle.
+permalink: 01
 ---
 ## Hardware
 Doing some basic math on the computer is all well and good, but lets explore talking with hardware.
