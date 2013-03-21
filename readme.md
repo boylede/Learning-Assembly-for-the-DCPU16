@@ -1,6 +1,6 @@
 # Learning DCPU Assembly
 
-I am by no means an expert on any programming topic, but I thought this would be fun to write. Comments & critisism are welcomed. 
+I am by no means an expert on any programming topic, but I thought this would be fun to write. Comments & criticism are welcomed. 
 
 This guide will walk through some reference knowledge, most of which will either be familiar to experienced programmers or is covered at dcpu.com in the official specs. This guide will act as an accompanyment to the official spec to explain anything which may not be immediately obvious.
 
