@@ -31,29 +31,11 @@ You can access the value at the stack pointer without modyfying the stack pointe
 
 set push, 8
 set push, 2
-set a, peek   	; set a to 2
-set a, pick 1 	; set a to 8
+set a, peek   	&#59; set a to 2
+set a, pick 1 	&#59; set a to 8
 
 ```
 
-
-## Labels
-While you are writing instructions, you can define a label to refer to a specific place in the code. A label is translated by the compiler into the address of next line of code after the label definition. 
-
-```
-	set a, 1
-&#58;label
-	add a, 1
-	set pc, label
-```
-
-Labels are defined by prefixing the label with a semicolon. Some compilers support putting the semicolon after the label, which is how real assembly works, but not all DCPU compilers will recognize those labels at the moment.
-
-In the example above, label would translate to the number 1. The first instruction, `set a, 1` is encoded into the 0th word of memory, and `add a, 1` is encoded into the 1st word. When `set pc, label` is compiled, it will be translated into `set pc, 1`.
-
-By accessing `pc` directly, you change the program flow. The program will run in a continuous loop because the instruction pointer keeps getting set to the same value.
-
-Label definitions themselves are not translated into machine code, so the above example would compile into three words.
 
 
 
