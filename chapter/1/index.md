@@ -27,14 +27,12 @@ Hexidecimal digits can be any one of 16 values, represented by the numbers 0-9 a
 
 Assembly consists of "simple" computations which are executed one at a time, in order. These are called **instructions**. Each instruction contains an operation and one or two values. 
 
-<pre>
-```
+<pre><code>
 	set a, 12
 	add a, 4
 	set b, 2
 	sub a, b
-```
-</pre>
+</code></pre>
 
 In the example above there are several different instructions shown, using the ```set```, ```add```, and ```sub``` operations. As you can probably guess, ```add``` and ```sub``` perform arithmatic on integers. Set allows you to copy a value to another place, in this example we store two values in two registers, called ```a``` and ```b```. Registers are like little pockets of memory on the processor which can be accessed quickly.
 
@@ -42,11 +40,11 @@ In the example above there are several different instructions shown, using the `
 
 When you write assembly, like many programming languages, you need to compile it into machine code before the processor can run it. The translation from assembly to machine code is more direct than in other programming languages because each assembly instruction represents an equivalent machine code instruction, and vice-versa. It is a one-to-one translation. 
 
-<pre>
-```
+<pre><code>
+
 	b401 9402 8c21 0403
-```
-</pre>
+
+</code></pre>
 
 The above block of machine code, represented in hexadecimal numbers, is equivalent to the assembly code shown before. The machine code is divided into blocks of 4 hexidecimal digits, for human readability. Each block of 4 digits represents one **word**.
 
@@ -57,29 +55,26 @@ I have shown you the above block of machine code to illustrate a point, but it i
 ## Instructions
 DCPU assembly differs from an actual assembly language in that the operations are all designed to be easy to understand by humans, whereas actual modern processors have instruction sets that are designed to be written by compilers and are not very human-friendly.
 
-<pre>
-```
+<pre><code>
+
 	set a, 12
-```
-</pre>
+</code></pre>
 
 The first part of an instruction is the opcode, which represents which operation the processor should be performing. Each operation expects either 1 or 2 values, which represent the data that will be manipluated.
 
-<pre>
-```
+<pre><code>
+
 	add a, 4
-```
-</pre>
+</code></pre>
 
 The first value is overwritten with the result of the operation. The second value is never altered. Here, 4 is added to the value in the ```a``` register and the result is stored back in the ```a``` register.
 
 
-<pre>
-```
+<pre><code>
+
 	set b, 2
 	sub a, b
-```
-</pre>
+</code></pre>
 
 Here, ```b``` is loaded with a value and then subtracted from ```a```. As before, the result is stored in ```a``` and ```b``` is left untouched.
 
@@ -92,24 +87,24 @@ Registers are little peices of memory on the processor which are used to store v
 
 Because the DCPU is made to be fun and simplified for humans, every register is one word and can be manipulated directly, except ```IA``` which I'll talk about later. Actual CPU achitectures can have differently sized registers which are for specific things, and which are full of little rules and tricks.
 
-<pre>
-```
+<pre><code>
+
 A, B, C
 X, Y, Z
 I, J 		; these two are sort of unique, hence 6+2
-```
-</pre>
+
+</code></pre>
 
 Each of the general purpose registers can be used for any arbitrary usage that the programmer wants to, but ```I``` and ```J``` are unique in that there are two operations which affect them directly.
 
 ```sti``` is an opcode which means "set then increment" it is like ```set```, but after it sets the value it will increment the ```i``` and ```j``` registers, even if they weren't used in the operation. Likewise, ```std``` means "set then decrement".
 
-<pre>
-```
+<pre><code>
+
 sti A, 2 	; sets a to 2 and then increments I and J
 std B, 1 	; sets b to 1 and then decrements I and J
-```
-</pre>
+
+</code></pre>
 
 ### PC: Program Counter AKA Instruction Pointer
 The special registers have specific uses. The most important to understand at first is ```PC```. This is the program counter, or instruction pointer, and it points to the location in memory where the current instruction is. After each instruction, ```pc``` is automatically incremented by 1 and then the instruction at that location is executed.
