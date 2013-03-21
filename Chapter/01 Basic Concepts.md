@@ -1,8 +1,7 @@
 ---
-layout: index
+layout: chapter
 title: Chapter 1: Basic Concepts
 subtitle: Some kind of subtitle.
-permalink: 01
 ---
 # Basic Concepts
 
