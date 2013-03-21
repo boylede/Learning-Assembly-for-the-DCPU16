@@ -33,6 +33,7 @@ set push, 8
 set push, 2
 set a, peek   	; set a to 2
 set a, pick 1 	; set a to 8
+
 ```
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
