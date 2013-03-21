@@ -34,6 +34,14 @@ set a, peek   	; set a to 2
 set a, pick 1 	; set a to 8
 ```
 
+## Labels
+While you are writing instructions, you can define a label to refer to a specific place in the code. A label is translated by the compiler into the address of next line of code after the label definition. 
 
+```
+	set a, 1
+:label
+	add a, 1
+	set pc, label
+```
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
