@@ -53,53 +53,5 @@ By accessing `pc` directly, you change the program flow. The program will run in
 
 Label definitions themselves are not translated into machine code, so the above example would compile into three words.
 
-## Globals
-If you want to keep track of a value but you don't want to hog a register for it, and you need to access it from a lot of places so the stack is out of the question, you can put it in a specific address in memory and then always refer to it by its address.
-
-You can use a label to act as a stand-in for the address, and that way you don't need to remember the specific address.
-
-```
-set a, [aValue]
-add a, 16
-set [aValue], a
-
-; . . .
-
-:aValue
-dat 0
-```
-
-When you use square-brackets `[ ]` around a number, the DCPU will interpret the number as an address in memory and access the value at that address. Since labels are translated into a number at compile time, you don't need to keep track of the specific address.
-
-I call these globals because any part of the program could access them.
-
-## Subroutines
-Labels can also be used to define subroutines, which are essentially reusable peices of code that are designed to be called a number of times.
-
-```
-set a, 6
-jsr aSubroutine
-
-set a, 8
-jsr aSubroutine
-
-set a, 2
-jsr aSubroutine
-
-; . . .
-
-:aSubroutine
-add a, 6
-div a, 2
-add [accumulate], a
-set pc, pop
-
-:accumulate
-dat 0
-```
-Jump SubRoutine or `jsr` is a special instruction that pushes `pc` to the stack, and then sets `pc` to the value given. That way the program can return to where it was by popping `pc`. The subroutine can be called multiple times in different places and always return to where it was.
-
-## Conditionals
-
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
