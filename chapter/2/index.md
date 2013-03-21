@@ -62,12 +62,8 @@ set a, [aValue]
 add a, 16
 set [aValue], a
 ; . . .
-:aValue
+&#58;aValue
 dat 0
 ```
-
-When you use square-brackets `[ ]` around a number, the DCPU will interpret the number as an address in memory and access the value at that address. Since labels are translated into a number at compile time, you don't need to keep track of the specific address.
-
-I call these globals because any part of the program could access them.
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
