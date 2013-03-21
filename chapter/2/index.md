@@ -66,7 +66,6 @@ set [aValue], a
 
 :aValue
 dat 0
-
 ```
 
 When you use square-brackets `[ ]` around a number, the DCPU will interpret the number as an address in memory and access the value at that address. Since labels are translated into a number at compile time, you don't need to keep track of the specific address.
