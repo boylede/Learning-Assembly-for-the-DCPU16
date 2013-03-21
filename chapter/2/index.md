@@ -61,9 +61,7 @@ You can use a label to act as a stand-in for the address, and that way you don't
 set a, [aValue]
 add a, 16
 set [aValue], a
-
 ; . . .
-
 &#58;aValue
 dat 0
 ```
