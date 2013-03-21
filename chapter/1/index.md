@@ -67,3 +67,39 @@ The first value is overwritten with the result of the operation. The second valu
 	sub a, b
 ```
 Here, ```b``` is loaded with a value and then subtracted from ```a```. As before, the result is stored in ```a``` and ```b``` is left untouched.
+
+
+## Registers
+Registers are little peices of memory on the processor which are used to store values for immediate use. The dcpu has 6+2 general purpose registers and 4 special purpose registers.
+
+
+###General Purpose Registers:
+
+Because the DCPU is made to be fun and simplified for humans, every register is one word and can be manipulated directly, except ```IA``` which I'll talk about later. Actual CPU achitectures can have differently sized registers which are for specific things, and which are full of little rules and tricks.
+
+```
+A, B, C
+X, Y, Z
+I, J 		; these two are sort of unique, hence 6+2
+```
+
+Each of the general purpose registers can be used for any arbitrary usage that the programmer wants to, but ```I``` and ```J``` are unique in that there are two operations which affect them directly.
+
+```sti``` is an opcode which means "set then increment" it is like ```set```, but after it sets the value it will increment the ```i``` and ```j``` registers, even if they weren't used in the operation. Likewise, ```std``` means "set then decrement".
+
+```
+sti A, 2 	; sets a to 2 and then increments I and J
+std B, 1 	; sets b to 1 and then decrements I and J
+```
+
+### PC: Program Counter AKA Instruction Pointer
+The special registers have specific uses. The most important to understand at first is ```PC```. This is the program counter, or instruction pointer, and it points to the location in memory where the current instruction is. After each instruction, ```pc``` is automatically incremented by 1 and then the instruction at that location is executed.
+
+### SP: Stack Pointer
+Like ```pc```, the stack pointer ```sp``` is used to keep track of a location in memory that the processor uses for other operations. In this case it is part of the stack, which is essentially an area of memory that values can be quickly stored in and retrieved from, but only in sequential order. We'll talk about the stack more later.
+
+### IA: Interrupt Address
+This is another pointer which we'll talk about later. Essentially a programmer can define a subroutine which gets run when hardware wants to talk to the DCPU or when another subroutine calls an Interrupt. ```ia``` points to the location in memory where that subroutine starts.
+
+### EX: Excess Register
+The exess register is used when a function overflows the 16-bit possible values. This is a very luxurious function of the DCPU because "real" architectures often only have 1 bit for overflow and it is shared between different uses. This provides 16 whole bits of extra information when an operation overflows, making the DCPU-16 almost a 32-bit processor.
