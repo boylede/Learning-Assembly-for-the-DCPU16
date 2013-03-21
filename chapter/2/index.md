@@ -27,9 +27,14 @@ You put values on the stack by setting push, and you get them back using pop. In
 You can access the value at the stack pointer without modyfying the stack pointer using `peek`, and you can access values near the stack pointer by using `pick` and a number.
 
 
+
 ```
-; test
-this is a ; test
+
+set push, 8
+set push, 2
+set a, peek   	; set a to 2
+set a, pick 1 	; set a to 8
+
 ```
 
 [ &lt;&lt;&lt; Previous Chapter](../1/) &nbsp; [Next Chapter &gt;&gt;&gt;](../3/)
