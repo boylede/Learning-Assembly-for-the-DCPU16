@@ -7,8 +7,8 @@ This guide will walk through some reference knowledge, most of which will either
 Alongside this guide are several well-commented sample programs which illustrate increasingly complex concepts.
 
 ## Chapters
-1. [Basic Concepts](https://github.com/boylede/Learning-Assembly-for-the-DCPU16/blob/master/01%20Basic%20Concepts.md) - The very basics of assembly.
+1. [Basic Concepts](//github.com/boylede/Learning-Assembly-for-the-DCPU16/blob/master/01%20Basic%20Concepts.md) - The very basics of assembly.
 
-2. [Memory](https://github.com/boylede/Learning-Assembly-for-the-DCPU16/blob/master/02%20Memory.md) - On subroutines and pointers.
+2. [First Program](//github.com/boylede/Learning-Assembly-for-the-DCPU16/blob/master/02%20First%20Program.md) - On subroutines and pointers.
 
-3. [Hardware](https://github.com/boylede/Learning-Assembly-for-the-DCPU16/blob/master/03%20Hardware.md) - Talking with hardware.
+3. [Hello World](//github.com/boylede/Learning-Assembly-for-the-DCPU16/blob/master/03%20Hello%20World.md) - Talking with hardware.
